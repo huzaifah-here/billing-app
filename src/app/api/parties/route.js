@@ -1,5 +1,5 @@
-import connectMongoDB from "../../../libs/mongodb";
-import Party from "../../../models/partySchema";
+import connectMongoDB from "../../../../libs/mongodb";
+import Party from "../../../../models/partySchema";
 
 export async function GET(request) {
   await connectMongoDB();
@@ -32,6 +32,22 @@ export async function POST(request) {
   } catch (error) {
     return new Response(JSON.stringify({ error: "Failed to create party" }), {
       status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+export async function DELETE(request) {
+  await connectMongoDB();
+
+  try {
+    const parties = await Party.deleteMany({});
+    return new Response(JSON.stringify(parties), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: "Failed to delete parties" }), {
+      status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }

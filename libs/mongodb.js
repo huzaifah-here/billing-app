@@ -3,10 +3,7 @@ const connectMongoDB = async () => {
   if (mongoose.connection.readyState >= 1) return;
   try {
     // @ts-ignore
-    mongoose.connect(process.env.MONGODB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    mongoose.connect(process.env.MONGODB_URL);
     console.log("MongoDB Connect ");
   } catch (error) {
     console.error(error);
