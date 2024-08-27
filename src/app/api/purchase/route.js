@@ -1,5 +1,6 @@
+// /api/purchases/index.js
 import connectMongoDB from "../../../../libs/mongodb";
-import Sale from "../../../../models/saleSchema";
+import Purchase from "../../../../models/purchaseSchema";
 import Party from "../../../../models/partySchema";
 import Item from "../../../../models/itemSchema";
 export async function POST(req) {
@@ -7,39 +8,40 @@ export async function POST(req) {
 
   try {
     const body = await req.json(); // Parse JSON body
-    const invoice = new Sale(body);
-    const savedInvoice = await invoice.save();
-    return new Response(JSON.stringify(savedInvoice), {
+    const purchase = new Purchase(body);
+    const savedPurchase = await purchase.save();
+    return new Response(JSON.stringify(savedPurchase), {
       status: 201,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("Error creating invoice:", error);
-    return new Response(JSON.stringify({ error: "Failed to create invoice" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("Error creating purchase:", error);
+    return new Response(
+      JSON.stringify({ error: "Failed to create purchase" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 }
-
-export async function GET(req, { params }) {
+export async function GET() {
   await connectMongoDB();
-  console.log("object");
+
   try {
-    const invoices = await Sale.find()
+    const purchases = await Purchase.find()
       .populate({ path: "party", select: "name" })
       .populate({ path: "items.item", select: "name" })
       .exec();
-    console.log(invoices);
-
-    return new Response(JSON.stringify(invoices), {
+    console.log(purchases);
+    return new Response(JSON.stringify(purchases), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("Error fetching Sale invoices:", error);
+    console.error("Error fetching purchases:", error);
     return new Response(
-      JSON.stringify({ error: "Failed to fetch Sale invoices" }),
+      JSON.stringify({ error: "Failed to fetch purchases" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json" },

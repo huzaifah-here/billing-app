@@ -1,12 +1,14 @@
 import connectMongoDB from "../../../../../libs/mongodb";
-import Invoice from "../../../../../models/invoiceSchema";
+import Sale from "../../../../../models/saleSchema";
+import Party from "../../../../../models/partySchema";
+import Item from "../../../../../models/itemSchema";
 export async function GET(req, { params }) {
   await connectMongoDB();
   console.log("object");
   try {
     const { id } = params; // Extract ID from params if provided
     if (id) {
-      const invoice = await Invoice.findById(id).populate("party").exec();
+      const invoice = await Sale.findById(id).populate("party").exec();
       if (invoice) {
         return new Response(JSON.stringify(invoice), {
           status: 200,
@@ -19,7 +21,7 @@ export async function GET(req, { params }) {
         });
       }
     } else {
-      const invoices = await Invoice.find().populate("party").exec();
+      const invoices = await Sale.find().populate("party").exec();
       return new Response(JSON.stringify(invoices), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -45,7 +47,7 @@ export async function DELETE(req, { params }) {
       });
     }
 
-    const result = await Invoice.findByIdAndDelete(id);
+    const result = await Sale.findByIdAndDelete(id);
     if (result) {
       return new Response(
         JSON.stringify({ message: "Invoice deleted successfully" }),
