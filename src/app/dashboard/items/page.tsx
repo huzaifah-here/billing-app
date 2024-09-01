@@ -1,7 +1,8 @@
 import React from "react";
 import ItemList from "../../components/ItemList";
 import TableData from "../../components/TableData";
-const Parties = () => {
+
+const Items = () => {
   const parties = [
     { name: "Ali", amount: 0.0 },
     { name: "Aslam", amount: 0.0 },
@@ -42,4 +43,4 @@ const Parties = () => {
   );
 };
 
-export default Parties;
+export default Items;

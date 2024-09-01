@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Sidebar = () => {
   return (
-    <div className="bg-gray-800 text-white h-screen w-64 flex flex-col">
+    <div className="bg-gray-800 text-white  w-64 flex flex-col">
       <div className="px-6 py-4">
         <img
           src="/path/to/logo.png"
